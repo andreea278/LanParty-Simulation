@@ -16,3 +16,8 @@ float minScore(TeamName *);
 void task2EliminateTeam(TeamName **, int);
 int *Readtasks(FILE *);
 float score(Team);
+void addGames(Match **, TeamName *, int);
+// void freeGames(Match **, int);
+void createQueueTeams(TeamQueue **, TeamName *, int);
+void addMatch(char *, int, TeamName *);
+void winnersVSlossers(TeamQueue *, TeamName **, TeamName **);
