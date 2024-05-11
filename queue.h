@@ -21,4 +21,7 @@ NodeQueue *NewNodeQueue(Match game);
 void enqueue(TeamQueue *, Match);
 TeamQueue *createQueue();
 Match deQueue(TeamQueue *);
-int isQueueEmpty(TeamQueue *);
+int IsQueueEmpty(TeamQueue *);
+void freeNodeQueue(NodeQueue **node);
+void deleteQueue(TeamQueue *queue, Match *gameArray, int nr_matches);
+void freeGames(Match **game, int nr_matches);

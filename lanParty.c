@@ -31,7 +31,14 @@ int main(int argc, char *argv[])
     // createQueueTeams(&t, teams, nTeamsEliminated(number_teams(argv[2])));
     // TeamName *stackWinners, *stacklossers;
     // winnersVSlossers(t, &stackWinners, &stacklossers);
-    addMatch(argv[2], nTeamsEliminated(number_teams(argv[2])), teams);
+    TeamName *winnerList = NULL;
+
+    outputfile = addMatch(argv[3], nTeamsEliminated(number_teams(argv[2])), teams, &winnerList);
+    while (winnerList)
+    {
+        printf("%s - %.2f\n", winnerList->team.teamName, winnerList->team.scoreTeam);
+        winnerList = winnerList->next;
+    }
     // while (stackWinners)
     // {
     //     printf("%s - %.02f\n", stackWinners->team.teamName, stackWinners->team.scoreTeam);

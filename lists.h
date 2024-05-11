@@ -13,6 +13,7 @@ typedef struct team
     int nr_players;
     char *teamName;
     Player *players;
+    float scoreTeam;
 } Team;
 
 typedef struct node
@@ -25,4 +26,5 @@ TeamName *newNode(Team);
 void addAtBeggining(TeamName **, Team);
 void addAtEnd(TeamName **, Team);
 void freeNode(TeamName *);
-// void freeList(TeamName *);
+void deleteTeam(TeamName **, float);
+void freeTeam(Team team);

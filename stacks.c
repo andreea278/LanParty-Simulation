@@ -28,15 +28,16 @@ void deleleteStackLossers(TeamName **top)
     {
         temp = *top;
         *top = (*top)->next;
-        free(temp);
+        freeNode(temp);
     }
 }
 
-void printWinnerStack(FILE *fp, TeamName *top)
+void printWinnerStack(FILE *fp, TeamName *top, int nr_matches)
 {
-    while (top)
+    while (top && nr_matches / 2)
     {
-        printf("%-30s - %.02f\n", top->team.teamName, top->team.scoreTeam);
+        fprintf(fp, "%-30s - %.02f\n", top->team.teamName, top->team.scoreTeam);
         top = top->next;
+        nr_matches--;
     }
 }

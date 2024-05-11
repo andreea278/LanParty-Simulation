@@ -1,4 +1,4 @@
 build:
-	gcc tema1.c -o lanParty
+	gcc lists.c tasksFunctions.c queue.c stacks.c lanParty.c -o lanParty
 clean:
 	rm -f lanParty

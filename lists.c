@@ -15,9 +15,11 @@ TeamName *newNode(Team team_inf)
         strcpy(node->team.players[i].secondName, team_inf.players[i].secondName);
         node->team.players[i].points = team_inf.players[i].points;
     }
+    node->team.scoreTeam = team_inf.scoreTeam;
     node->next = NULL;
     return node;
 }
+
 void freeNode(TeamName *node)
 {
     free(node->team.teamName);
@@ -49,4 +51,43 @@ void addAtEnd(TeamName **head, Team team_inf)
         aux = aux->next;
     aux->next = new_node;
     new_node->next = NULL;
+}
+
+void deleteTeam(TeamName **head, float score)
+{
+    if (*head == NULL)
+        return;
+    TeamName *temp = *head;
+    if (temp->team.scoreTeam == score)
+    {
+        (*head) = (*head)->next;
+        freeNode(temp);
+        return;
+    }
+    TeamName *prev = *head;
+    while (temp != NULL)
+    {
+        if (temp->team.scoreTeam != score)
+        {
+            prev = temp;
+            temp = temp->next;
+        }
+        else
+        {
+            prev->next = temp->next;
+            freeNode(temp);
+            return;
+        }
+    }
+}
+
+void freeTeam(Team team)
+{
+    free(team.teamName);
+    for (int i = 0; i < team.nr_players; i++)
+    {
+        free(team.players[i].firstName);
+        free(team.players[i].secondName);
+    }
+    free(team.players);
 }

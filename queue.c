@@ -1,4 +1,8 @@
 #include "queue.h"
+int IsEmpty(TeamQueue *q)
+{
+    return (q->front == NULL);
+}
 Team allocMemoryTeam(Team team)
 {
     Team teamG;
@@ -25,6 +29,35 @@ NodeQueue *NewNodeQueue(Match game)
     newNode->game.team2 = allocMemoryTeam(game.team2);
     newNode->next = NULL;
     return newNode;
+}
+
+void freeNodeQueue(NodeQueue **node)
+{
+    freeTeam((*node)->game.team1);
+    freeTeam((*node)->game.team2);
+    free((*node));
+}
+void freeGames(Match **game, int nr_matches)
+{
+    for (int i = 0; i < nr_matches; i++)
+    {
+        freeTeam((*game)[i].team1);
+        freeTeam((*game)[i].team2);
+    }
+    free(*game);
+}
+
+void deleteQueue(TeamQueue *queue, Match *gameArray, int nr_matches)
+{
+    NodeQueue *aux;
+    freeGames(&gameArray, nr_matches);
+    while (!IsEmpty(queue))
+    {
+        aux = queue->front;
+        queue->front = queue->front->next;
+        freeNodeQueue(&aux);
+    }
+    free(queue);
 }
 
 TeamQueue *createQueue()
