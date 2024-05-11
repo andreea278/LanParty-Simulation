@@ -21,6 +21,16 @@ int *Readtasks(FILE *fp)
     return tasks;
 }
 
+int sumTasks(int *tasks)
+{
+    int sum_task = 0;
+    for (int i = 0; i < NUMBER_TASKS; i++)
+    {
+        sum_task += tasks[i];
+    }
+    return sum_task;
+}
+
 FILE *openFile(char *nameFile)
 {
     FILE *fp;
@@ -103,8 +113,10 @@ void addTeams(char *nameFile, TeamName **teamList)
     free(teams);
 }
 
-FILE *writeTeamList(char *nameFile, TeamName *teams)
+FILE *writeTeamList(char *InfoFile, char *nameFile)
 {
+    TeamName *teams;
+    addTeams(InfoFile, &teams);
     FILE *fp = fopen(nameFile, "w");
     verifyOpeningFile(fp);
     while (teams)
@@ -120,7 +132,7 @@ FILE *writeTeamList(char *nameFile, TeamName *teams)
 int nTeamsEliminated(int nr_teams)
 {
     int n = 2;
-    while (n < nr_teams)
+    while (n <= nr_teams)
     {
         n = n * 2;
     }
@@ -139,8 +151,9 @@ float minScore(TeamName *team)
     return min_score;
 }
 
-void task2EliminateTeam(TeamName **teamlist, int nr_teams)
+FILE *task2EliminateTeam(char *InfoFile, char *FileOutput, TeamName **teamlist, int nr_teams)
 {
+    addTeams(InfoFile, teamlist);
     int i = nTeamsEliminated(nr_teams);
     while (i < nr_teams)
     {
@@ -157,6 +170,12 @@ void task2EliminateTeam(TeamName **teamlist, int nr_teams)
         }
         i++;
     }
+    FILE *fp = fopen(FileOutput, "w");
+    verifyOpeningFile(fp);
+    printTeam(fp, *teamlist);
+    fclose(fp);
+
+    return fp;
 }
 
 void addGames(Match **game, TeamName *teamList, int nr_matches)
@@ -181,7 +200,7 @@ void createQueueTeams(TeamQueue **teamQueue, TeamName *teamList, int nr_matches)
     {
         enqueue(*teamQueue, games[i]);
     }
-    // freeGames(&games, nr_matches);
+    // freeGames(games, nr_matches);
 }
 
 void winnersVSlossers(FILE *fileInfo, TeamQueue *teamQueue, TeamName **stackWinner, TeamName **stackLosser, TeamName **topBest8, int *foundTop8)
@@ -192,7 +211,11 @@ void winnersVSlossers(FILE *fileInfo, TeamQueue *teamQueue, TeamName **stackWinn
     {
         Match game = deQueue(teamQueue);
         Team firstTeam = game.team1, secondTeam = game.team2;
-        fprintf(fileInfo, "%-33s - %-33s\n", firstTeam.teamName, secondTeam.teamName);
+        if (secondTeam.teamName[strlen(secondTeam.teamName) - 1] == ' ')
+        {
+            secondTeam.teamName[strlen(secondTeam.teamName) - 1] = '\0';
+        }
+        fprintf(fileInfo, "%-32s - %32s\n", firstTeam.teamName, secondTeam.teamName);
         if (firstTeam.scoreTeam > secondTeam.scoreTeam)
         {
             firstTeam.scoreTeam += 1;
@@ -227,10 +250,31 @@ void winnersVSlossers(FILE *fileInfo, TeamQueue *teamQueue, TeamName **stackWinn
     deleleteStackLossers(stackLosser);
     fprintf(fileInfo, "\n");
 }
-FILE *addMatch(char *nameFile, int nr_matches, TeamName *teamslist, TeamName **WinnersList)
+// verific daca merge deschisa lista
+// void *AddMatch(char *inputFile, char *outputFile, int nr_matches, TeamName **WinnersList, int *tasks)
+// {
+//     TeamName *teamslist;
+//     FILE *outFILE = task2EliminateTeam(inputFile, outputFile, &teamslist, nTeamsEliminated(number_teams(inputFile)), tasks);
+//     if (outFILE)
+//     {
+//         char buff[100];
+//         fscanf(outFILE, "%s", buff);
+//         fclose(outFILE);
+//         printf("%s\n", buff);
+//     }
+//     // fprintf(outFILE, "\n");
+//     // while (teamslist)
+//     // {
+//     //     printf("%s\n", teamslist->team.teamName);
+//     //     teamslist = teamslist->next;
+//     // }
+// }
+FILE *addMatch(char *inputFile, char *outputFile, int nr_matches, TeamName **WinnersList, TeamName *teamslist)
 {
-    FILE *fp = fopen(nameFile, "a");
-    verifyOpeningFile(fp);
+    // TeamName *teamslist = task2EliminateTeam(inputFile, outputFile, &teamslist, nTeamsEliminated(number_teams(inputFile)));
+    FILE *outFILE = fopen(outputFile, "a");
+    verifyOpeningFile(outFILE);
+    fprintf(outFILE, "\n");
     TeamQueue **Q = (TeamQueue **)malloc(sizeof(TeamQueue *) * (nr_matches / 2));
     for (int i = 0; i < nr_matches / 2; i++)
     {
@@ -245,16 +289,17 @@ FILE *addMatch(char *nameFile, int nr_matches, TeamName *teamslist, TeamName **W
     int existingQueue = 1, foundTop8, i; // verifing if there still are games to play
     for (i = 0; i < nr_matches / 2 && existingQueue; i++)
     {
-        fprintf(fp, "--- ROUND NO:%d\n", i + 1);
-        winnersVSlossers(fp, Q[i], &stackwinners, &stacklossers, &topBest8, &foundTop8);
-        fprintf(fp, "WINNERS OF ROUND NO:%d\n", i + 1);
-        printWinnerStack(fp, stackwinners, nr_matches);
+        fprintf(outFILE, "--- ROUND NO:%d\n", i + 1);
+        winnersVSlossers(outFILE, Q[i], &stackwinners, &stacklossers, &topBest8, &foundTop8);
+        fprintf(outFILE, "WINNERS OF ROUND NO:%d\n", i + 1);
+        printWinnerStack(outFILE, stackwinners, nr_matches);
         int indexQueue = i + 1, x = 1; // x power of 2 for searching how many games will be in the new Queue
         while (indexQueue)
         {
             x *= 2;
             indexQueue--;
         }
+        // deleteQueue(Q[i]);
         createQueueTeams(&Q[i + 1], stackwinners, nr_matches / x);
         int nr = nr_matches / 2;
         // golim din stiva echipele folosite in noua coada
@@ -275,8 +320,10 @@ FILE *addMatch(char *nameFile, int nr_matches, TeamName *teamslist, TeamName **W
                 topBest8 = topBest8->next;
             }
         }
-        fprintf(fp, "\n");
+        if (existingQueue)
+            fprintf(outFILE, "\n");
     }
-    fclose(fp);
-    return fp;
+
+    fclose(outFILE);
+    return outFILE;
 }

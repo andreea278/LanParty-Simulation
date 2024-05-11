@@ -36,7 +36,7 @@ void printWinnerStack(FILE *fp, TeamName *top, int nr_matches)
 {
     while (top && nr_matches / 2)
     {
-        fprintf(fp, "%-30s - %.02f\n", top->team.teamName, top->team.scoreTeam);
+        fprintf(fp, "%-33s -  %.02f\n", top->team.teamName, top->team.scoreTeam);
         top = top->next;
         nr_matches--;
     }

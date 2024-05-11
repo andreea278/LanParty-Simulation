@@ -28,3 +28,4 @@ void addAtEnd(TeamName **, Team);
 void freeNode(TeamName *);
 void deleteTeam(TeamName **, float);
 void freeTeam(Team team);
+void printTeam(FILE *fp, TeamName *teamlist);

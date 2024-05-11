@@ -91,3 +91,12 @@ void freeTeam(Team team)
     }
     free(team.players);
 }
+
+void printTeam(FILE *fp, TeamName *teamlist)
+{
+    while (teamlist)
+    {
+        fprintf(fp, "%s\n", teamlist->team.teamName);
+        teamlist = teamlist->next;
+    }
+}
