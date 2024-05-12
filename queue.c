@@ -31,28 +31,26 @@ NodeQueue *NewNodeQueue(Match game)
     return newNode;
 }
 
+void freeGame(Match game)
+{
+    freeTeam(&game.team1);
+    freeTeam(&game.team2);
+}
+
 void freeNodeQueue(NodeQueue *node)
 {
-    freeTeam(node->game.team1);
-    freeTeam(node->game.team2);
+    freeGame(node->game);
     free(node);
-}
-void freeGames(Match *game, int nr_matches)
-{
-    for (int i = 0; i < nr_matches; i++)
-    {
-        freeTeam(game[i].team1);
-        freeTeam(game[i].team2);
-    }
-    free(game);
 }
 
 void deleteQueue(TeamQueue *queue)
 {
-    Match aux;
+    NodeQueue *aux;
     while (!IsEmpty(queue))
     {
-        aux = deQueue(queue);
+        aux = queue->front;
+        queue->front = queue->front->next;
+        freeNodeQueue(aux);
     }
     free(queue);
 }

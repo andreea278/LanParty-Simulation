@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
         break;
     case 2:
         outputfile = task2EliminateTeam(argv[2], argv[3], &teams, number_teams(argv[2]));
+        freeList(&teams);
         break;
     case 3:
         outputfile = task2EliminateTeam(argv[2], argv[3], &teams, number_teams(argv[2]));

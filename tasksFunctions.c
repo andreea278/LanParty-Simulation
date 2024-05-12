@@ -108,7 +108,7 @@ void addTeams(char *nameFile, TeamName **teamList)
     }
     for (int i = 0; i < nr_teams; i++)
     {
-        freeTeam(teams[i]);
+        freeTeam(&teams[i]);
     }
     free(teams);
 }
@@ -124,6 +124,7 @@ FILE *writeTeamList(char *InfoFile, char *nameFile)
         fprintf(fp, "%s\n", teams->team.teamName);
         teams = teams->next;
     }
+    freeList(&teams);
     fclose(fp);
     return fp;
 }
@@ -200,7 +201,11 @@ void createQueueTeams(TeamQueue **teamQueue, TeamName *teamList, int nr_matches)
     {
         enqueue(*teamQueue, games[i]);
     }
-    // freeGames(games, nr_matches);
+    // for (int i = 0; i < nr_matches / 2; i++)
+    // {
+    //     freeGame(games[i]);
+    // }
+    // free(games);
 }
 
 void winnersVSlossers(FILE *fileInfo, TeamQueue *teamQueue, TeamName **stackWinner, TeamName **stackLosser, TeamName **topBest8, int *foundTop8)
@@ -238,6 +243,8 @@ void winnersVSlossers(FILE *fileInfo, TeamQueue *teamQueue, TeamName **stackWinn
             }
             push(stackWinner, secondTeam);
         }
+        freeTeam(&firstTeam);
+        freeTeam(&secondTeam);
     }
     if (nr_teamsTop == 8 && *foundTop8)
     {
@@ -271,7 +278,6 @@ void winnersVSlossers(FILE *fileInfo, TeamQueue *teamQueue, TeamName **stackWinn
 // }
 FILE *addMatch(char *inputFile, char *outputFile, int nr_matches, TeamName **WinnersList, TeamName *teamslist)
 {
-    // TeamName *teamslist = task2EliminateTeam(inputFile, outputFile, &teamslist, nTeamsEliminated(number_teams(inputFile)));
     FILE *outFILE = fopen(outputFile, "a");
     verifyOpeningFile(outFILE);
     fprintf(outFILE, "\n");
@@ -319,11 +325,12 @@ FILE *addMatch(char *inputFile, char *outputFile, int nr_matches, TeamName **Win
                 addAtBeggining(WinnersList, topBest8->team);
                 topBest8 = topBest8->next;
             }
+            // freeList(&topBest8);
         }
         if (existingQueue)
             fprintf(outFILE, "\n");
     }
-
+    free(Q);
     fclose(outFILE);
     return outFILE;
 }
