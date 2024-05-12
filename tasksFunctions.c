@@ -276,6 +276,7 @@ void winnersVSlossers(FILE *fileInfo, TeamQueue *teamQueue, TeamName **stackWinn
 //     //     teamslist = teamslist->next;
 //     // }
 // }
+
 FILE *addMatch(char *inputFile, char *outputFile, int nr_matches, TeamName **WinnersList, TeamName *teamslist)
 {
     FILE *outFILE = fopen(outputFile, "a");
@@ -333,4 +334,23 @@ FILE *addMatch(char *inputFile, char *outputFile, int nr_matches, TeamName **Win
     free(Q);
     fclose(outFILE);
     return outFILE;
+}
+
+void task4BTS(char *outputfile, char *inputfile)
+{
+    TeamName *teams;
+    FILE *outFile = task2EliminateTeam(inputfile, outputfile, &teams, number_teams(inputfile));
+    TeamName *winnerList = NULL;
+    outFile = addMatch(inputfile, outputfile, nTeamsEliminated(number_teams(inputfile)), &winnerList, teams);
+    outFile = fopen(outputfile, "a");
+    verifyOpeningFile(outFile);
+    fprintf(outFile, "\nTOP 8 TEAMS:\n");
+    NodeBTS *topWinners = NULL;
+    while (winnerList)
+    {
+        topWinners = insert(topWinners, winnerList->team);
+        winnerList = winnerList->next;
+    }
+    printBTS(outFile, topWinners);
+    fclose(outFile);
 }

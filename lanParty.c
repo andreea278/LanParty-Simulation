@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
         break;
 
     default:
-        printf("error");
+        task4BTS(argv[3], argv[2]);
         break;
     }
     free(tasks);

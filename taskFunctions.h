@@ -1,4 +1,4 @@
-#include "queue.h"
+#include "BTS.h"
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX_LENGTH 100
@@ -22,3 +22,4 @@ void createQueueTeams(TeamQueue **, TeamName *, int);
 FILE *addMatch(char *inputFile, char *outputFile, int nr_matches, TeamName **WinnersList, TeamName *);
 void winnersVSlossers(FILE *, TeamQueue *, TeamName **, TeamName **, TeamName **, int *);
 void *AddMatch(char *inputFile, char *outputFile, int nr_matches, TeamName **WinnersList, TeamName *);
+void task4BTS(char *outputfile, char *inputfile);
