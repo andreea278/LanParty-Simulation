@@ -24,9 +24,12 @@ int main(int argc, char *argv[])
         outputfile = addMatch(argv[2], argv[3], nTeamsEliminated(number_teams(argv[2])), &winnerList, teams);
         break;
 
-    default:
-        task4BTS(argv[3], argv[2]);
+    case 4:
+        NodeBTS *topWinners;
+        task4BTS(argv[3], argv[2], &topWinners);
         break;
+    case 5:
+        task5AVL(argv[3], argv[2]);
     }
     free(tasks);
 
