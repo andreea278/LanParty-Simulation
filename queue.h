@@ -24,4 +24,4 @@ Match deQueue(TeamQueue *);
 int IsQueueEmpty(TeamQueue *);
 void freeNodeQueue(NodeQueue *node);
 void deleteQueue(TeamQueue *queue);
-void freeGame(Match game);
+void freeGame(Match *game);

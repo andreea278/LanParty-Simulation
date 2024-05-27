@@ -3,5 +3,5 @@
 void push(TeamName **, Team);
 Team pop(TeamName **);
 int isEmpty(TeamName *);
-void deleleteStackLossers(TeamName **);
+void deleleteStackLosers(TeamName **);
 void printWinnerStack(FILE *, TeamName *, int);

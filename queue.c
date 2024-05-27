@@ -31,15 +31,15 @@ NodeQueue *NewNodeQueue(Match game)
     return newNode;
 }
 
-void freeGame(Match game)
+void freeGame(Match *game)
 {
-    freeTeam(&game.team1);
-    freeTeam(&game.team2);
+    freeTeam(&game->team1);
+    freeTeam(&game->team2);
 }
 
 void freeNodeQueue(NodeQueue *node)
 {
-    freeGame(node->game);
+    freeGame(&node->game);
     free(node);
 }
 

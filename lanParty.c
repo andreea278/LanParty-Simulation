@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
         outputfile = task2EliminateTeam(argv[2], argv[3], &teams, number_teams(argv[2]));
         TeamName *winnerList = NULL;
         outputfile = addMatch(argv[2], argv[3], nTeamsEliminated(number_teams(argv[2])), &winnerList, teams);
+        freeList(&winnerList);
         break;
 
     case 4:

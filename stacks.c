@@ -21,7 +21,7 @@ Team pop(TeamName **top)
     return aux;
 }
 
-void deleleteStackLossers(TeamName **top)
+void deleleteStackLosers(TeamName **top)
 {
     TeamName *temp;
     while (!isEmpty(*top))
@@ -34,10 +34,23 @@ void deleleteStackLossers(TeamName **top)
 
 void printWinnerStack(FILE *fp, TeamName *top, int nr_matches)
 {
-    while (top && nr_matches / 2)
+    int nr = nr_matches / 2;
+    while (top && nr)
     {
         fprintf(fp, "%-33s -  %.02f\n", top->team.teamName, top->team.scoreTeam);
         top = top->next;
-        nr_matches--;
+        nr--;
     }
 }
+
+// void printWinnerStack(FILE *fp, TeamName *top, int nr_matches)
+// {
+//     int nr = nr_matches / 2;
+//     while (top && nr > 0)
+//     {
+//         Team team = pop(&top);
+//         printf("%s\n", team.teamName);
+//         fprintf(fp, "%-33s -  %.02f\n", team.teamName, team.scoreTeam);
+//         nr--;
+//     }
+// }
