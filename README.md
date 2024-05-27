@@ -7,11 +7,15 @@ Aplicația are ca scop automatizarea procesului de organizare a acestui evenimen
 
 ## Conținut
 
+- [Utilizare](#utilizare)
 - [Task 1: Gestionarea Echipelor](#task-1-gestionarea-echipelor)
 - [Task 2: Eliminarea Echipelor](#task-2-eliminarea-echipelor)
 - [Task 3: Meciuri și Scoruri](#task-3-meciuri-și-scoruri)
 - [Task 4: Generarea Topului de Echipe](#task-4-generarea-topului-de-echipe)
 - [Task 5: Implementarea Structurii AVL a Topului Echipelor](#task-5-implementarea-structurii-avl-a-topului-echipelor)
+
+## Utilizare 
+Programul poate fi compilat ruland in terminal comanda `./checker.sh`. Totodata daca se doreste compilarea unui singur set de date se foloseste comanda `make build` care creaza executabilul lanParty cu ajutorul Makefile-ului ,iar apoi comanda `./lanParty c.in d.in r.out`, unde c.in si d.in sunt fisierele de input de unde sunt citite datele si r.out reprezinta fisierul in care vom scrie.
 
 ## Task 1: Gestionarea Echipelor
 
