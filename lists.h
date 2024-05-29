@@ -27,5 +27,6 @@ void addAtBeggining(TeamName **, Team);
 void addAtEnd(TeamName **, Team);
 void freeNode(TeamName *);
 void deleteTeam(TeamName **, float);
-void freeTeam(Team team);
+void freeTeam(Team *team);
+void freeList(TeamName **listTeam);
 void printTeam(FILE *fp, TeamName *teamlist);

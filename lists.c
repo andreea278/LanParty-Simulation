@@ -22,6 +22,8 @@ TeamName *newNode(Team team_inf)
 
 void freeNode(TeamName *node)
 {
+    if (node == NULL)
+        return;
     free(node->team.teamName);
     for (int i = 0; i < node->team.nr_players; i++)
     {
@@ -30,6 +32,18 @@ void freeNode(TeamName *node)
     }
     free(node->team.players);
     free(node);
+}
+
+void freeList(TeamName **listTeam)
+{
+    TeamName *copy;
+    while (*listTeam != NULL)
+    {
+        copy = (*listTeam)->next;
+        freeNode(*listTeam);
+        *listTeam = copy;
+    }
+    *listTeam = NULL;
 }
 void addAtBeggining(TeamName **head, Team team_inf)
 {
@@ -81,15 +95,15 @@ void deleteTeam(TeamName **head, float score)
     }
 }
 
-void freeTeam(Team team)
+void freeTeam(Team *team)
 {
-    free(team.teamName);
-    for (int i = 0; i < team.nr_players; i++)
+    free(team->teamName);
+    for (int i = 0; i < team->nr_players; i++)
     {
-        free(team.players[i].firstName);
-        free(team.players[i].secondName);
+        free(team->players[i].firstName);
+        free(team->players[i].secondName);
     }
-    free(team.players);
+    free(team->players);
 }
 
 void printTeam(FILE *fp, TeamName *teamlist)
