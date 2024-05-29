@@ -272,18 +272,14 @@ FILE *addMatch(char *inputFile, char *outputFile, int nr_matches, TeamName **Win
         }
         deleteQueue(Q);
         createQueueTeams(&Q, stackwinners, nr_matches / x);
-        printWinnerStack(outFILE, stackwinners, nr_matches);
+        printWinnerStack(outFILE, stackwinners, nr_matches / x);
         i++;
         if (Q->front == NULL)
         {
             existingQueue = 0;
         }
         int nr = nr_matches / 2;
-        while (stackwinners && nr)
-        {
-            Team team = pop(&stackwinners);
-            nr--;
-        }
+        deleleteStackLosers(&stackwinners);
         if (!foundTop8)
         {
             while (topBest8)
