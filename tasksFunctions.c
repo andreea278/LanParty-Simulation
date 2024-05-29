@@ -278,7 +278,6 @@ FILE *addMatch(char *inputFile, char *outputFile, int nr_matches, TeamName **Win
         {
             existingQueue = 0;
         }
-        int nr = nr_matches / 2;
         deleleteStackLosers(&stackwinners);
         if (!foundTop8)
         {
