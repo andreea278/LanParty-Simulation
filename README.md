@@ -8,6 +8,7 @@ Aplicația are ca scop automatizarea procesului de organizare a acestui evenimen
 ## Conținut
 
 - [Utilizare](#utilizare)
+- [Structuri de Date](#structuri-de-date)
 - [Task 1: Gestionarea Echipelor](#task-1-gestionarea-echipelor)
 - [Task 2: Eliminarea Echipelor](#task-2-eliminarea-echipelor)
 - [Task 3: Meciuri și Scoruri](#task-3-meciuri-și-scoruri)
@@ -16,6 +17,40 @@ Aplicația are ca scop automatizarea procesului de organizare a acestui evenimen
 
 ## Utilizare 
 Programul poate fi compilat ruland in terminal comanda `./checker.sh`. Totodata daca se doreste compilarea unui singur set de date se foloseste comanda `make build` care creaza executabilul lanParty cu ajutorul Makefile-ului ,iar apoi comanda `./lanParty c.in d.in r.out`, unde c.in si d.in sunt fisierele de input de unde sunt citite datele si r.out reprezinta fisierul in care vom scrie.
+
+## Structuri de Date
+### `typedef struct player`
+Structura `Player` reprezintă un jucător individual , avand următoarele atribute:
+
+`firstName`: Un pointer către un șir de caractere (string) care reprezintă prenumele jucătorului.
+`secondName`: Un pointer către un șir de caractere (string) care reprezintă numele de familie al jucătorului.
+`points`: Un număr întreg care reprezintă punctele marcate de jucător.
+
+### `typedef struct team`
+Structura `Team` reprezintă o echipă ce poate la parte la turneu și include următoarele atribute:
+
+`nr_players`: Un număr întreg care reprezintă numărul de jucători din echipă.
+`teamName`: Un pointer către un șir de caractere (string) care reprezintă numele echipei.
+`players`: Un pointer către un array de structuri Player, reprezentând lista de jucători din echipă.
+`scoreTeam`: Un număr cu virgulă mobilă care reprezintă scorul echipei.
+
+### `typedef struct node`
+Structura `node` reprezinta un nod al listei de echipe ce urmeaza a fi creata, unde fiecare nod conține:
+
+`team`: O structură Team reprezentând o echipă.
+`next`: Un pointer către următorul nod din lista înlănțuită.
+
+### `typedef struct match`
+Structura Match reprezintă un meci între două echipe, continand doua structuri de tip `Team` ,respectiv echipele  `team1` si `team2` 
+
+### `typedef struct nodeQueue`
+Structura `NodeQueue` este destinată a fi utilizată într-o coadă  de meciuri, reprezentand un nod din coada de meciuri si  conținand:
+
+`game`: O structură `Match` reprezentând un meci între două echipe.
+`next`: Un pointer către următorul nod din coada de meciuri.
+
+### `typedef struct teamQueue`
+Structura `TeamQueue` reprezinta o coadă  de meciuri, gestionată prin pointeri către începutul și sfârșitul cozii.
 
 ## Task 1: Gestionarea Echipelor
 
